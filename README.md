@@ -1,175 +1,198 @@
-# DNS Anomaly Detection and Visualization
+# DNS Anomaly Detection
 
-This project consists of two main components:
+This project is designed to detect DNS anomalies using machine learning models. It comprises two main components:
 
-1. **Training Script**: A script to train machine learning models for DNS anomaly detection.
-2. **netDash Dashboard**: A real-time web-based dashboard for monitoring DNS traffic and detecting anomalies.
+1. **Training Script**: To train machine learning models for classifying DNS traffic.
+2. **Real-Time Dashboard (`netDash`)**: To monitor and classify DNS traffic in real time.
 
 ---
 
 ## Prerequisites
 
-### **System Requirements**
+### System Requirements
 
-- Python 3.9 or later
-- Recommended OS: Windows 10/11, macOS, or a Linux distribution
-- Network interface access (for packet sniffing using Scapy in the `netDash` dashboard)
+- **Python Version**: Python 3.9 or later.
+- **Operating System**: Windows, macOS, or Linux.
+- **Network Interface**: Ensure access to an active network adapter for live packet sniffing.
 
-### **Required Tools**
+### Required Tools
 
-- Python Package Manager (`pip`)
-- Virtual Environment Manager (`venv` or `conda`)
-
----
-
-## Setup for Both Components
-
-### **Unified Virtual Environment**
-
-To streamline the setup process, use a single virtual environment for both scripts:
-
-1. **Create the Virtual Environment**:
-
-   ```bash
-   python -m venv netdash_train_env
-   ```
-
-2. **Activate the Virtual Environment**:
-
-   - **Windows**:
-     ```bash
-     netdash_train_env\Scripts\activate
-     ```
-   - **macOS/Linux**:
-     ```bash
-     source netdash_train_env/bin/activate
-     ```
-
-3. **Install All Dependencies**:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
+- Python Package Manager (`pip`).
+- Git (to clone the repository).
+- Virtual Environment Manager (`venv` or `conda`).
 
 ---
 
-## 1. Training Script
+## Step-by-Step Instructions
 
-### **Overview**
+### Clone the Repository
 
-The training script prepares machine learning models for classifying DNS traffic as either benign or malicious. It supports multiple models, including neural networks and scikit-learn models.
+Start by cloning the project to your local machine:
 
-### **Usage**
-
-1. **Edit File Paths**:
-   Update the file paths for datasets and model/scaler output in `trainModel.py`. Look for the following variables:
-   - `benign_file_path`
-   - `viriback_file_path`
-   - `phishtank_file_path`
-   - Output paths for models and scalers (`MODEL_OUTPUT_PATH`, `SCALER_OUTPUT_PATH`).
-
-2. **Run the Script**:
-
-   ```bash
-   python trainModel.py
-   ```
-
-3. **Output**:
-   - Models are saved as `.pkl` or `.h5` files.
-   - Logs are written to `model_training.log`.
-   - Performance metrics are saved to `model_performance_metrics.csv`.
+```bash
+git clone <repository_url>
+cd <repository_folder>
+```
 
 ---
 
-## 2. netDash Dashboard
+## 1. **Setting up the Virtual Environment**
 
-### **Overview**
+Create and activate a virtual environment to isolate dependencies for the project.
 
-`netDash` is a real-time dashboard for monitoring DNS traffic, classifying domains as benign or malicious, and displaying live metrics.
+### Create the Virtual Environment
 
-### **Usage**
+```bash
+python -m venv dns_env
+```
 
-1. **Edit Configuration**:
+### Activate the Virtual Environment
 
-   - Update the `NETWORK_INTERFACE` variable in `netDash.py` with your active network interface (e.g., `"Wi-Fi"`).
-   - Ensure the following paths are set correctly:
-     - `MODEL_PATH`
-     - `SCALER_PATH`
-
-2. **Run the Dashboard**:
-
-   ```bash
-   python netDash.py
-   ```
-
-3. **Access the Dashboard**:
-
-   Open your browser and navigate to:
-
-   ```
-   http://127.0.0.1:8050
-   ```
-
-4. **Features**:
-   - View total DNS traffic, benign domains, and malicious domains.
-   - Filter traffic by classification (all, benign, or malicious).
-   - See recent classified domains with detailed logs.
+- **Windows**:
+  ```bash
+  dns_env\Scripts\activate
+  ```
+- **macOS/Linux**:
+  ```bash
+  source dns_env/bin/activate
+  ```
 
 ---
 
-## Logging
+## 2. **Install Dependencies**
 
-Both scripts produce detailed logs:
+Install all required packages using the combined `requirements.txt` file:
 
-- **Training Script Logs**: `model_training.log`
-- **netDash Logs**: `application.log`
-
-Logs include:
-
-- Initialization and setup details
-- Errors and warnings
-- Model performance metrics
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-## Additional Notes
+## 3. **Training Script Setup**
 
-1. **Virtual Environments**:
-   Ensure the correct virtual environment is activated when running each script.
+### Overview
 
-2. **Dependencies**:
-   If a package is missing, re-install dependencies using:
+The training script prepares models for DNS anomaly detection.
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Configure the Script
 
-3. **Network Interface**:
-   Update the `NETWORK_INTERFACE` variable in `netDash.py` with your active network adapter name.
+Edit the training script to specify the correct file paths:
 
-4. **Whitelisted Domains**:
-   The `WHITELIST` variable in `netDash.py` contains the predefined list of domains considered benign. Update this list as needed.
+- **Datasets**:
+  - `benign_file_path`
+  - `viriback_file_path`
+  - `phishtank_file_path`
+- **Output Files**:
+  - Model files (e.g., `dns_model.pkl`, `Neural_Network_model.h5`).
+  - Scaler (e.g., `scaler.joblib`).
 
-5. **File Paths**:
-   - For the training script, paths for input datasets and output models need to be updated.
-   - For the `netDash` script, ensure that `MODEL_PATH` and `SCALER_PATH` point to the correct files.
+### Run the Training Script
+
+```bash
+python trainModel.py
+```
+
+### Output
+
+- Trained models saved to specified paths.
+- Performance metrics saved to `model_performance_metrics.csv`.
+- Logs saved to `model_training.log`.
+
+---
+
+## 4. **Real-Time Dashboard (`netDash`) Setup**
+
+### Overview
+
+`netDash` provides a real-time view of DNS traffic, classifies domains, and logs anomalies.
+
+### Configure the Script
+
+Edit the following variables in `netDash.py` to match your system setup:
+
+- **Network Interface**:
+  - Update `NETWORK_INTERFACE` with your active adapter name (e.g., `"Wi-Fi"`).
+- **Paths**:
+  - `MODEL_PATH` (Path to the trained `.h5` model).
+  - `SCALER_PATH` (Path to the saved scaler).
+
+Ensure the database (`dashboard_data.db`) exists in the working directory. If not, the script will initialize it automatically.
+
+### Run the Dashboard
+
+Start the dashboard by running:
+
+```bash
+python netDash.py
+```
+
+### Access the Dashboard
+
+Open your browser and visit:
+
+```
+http://127.0.0.1:8050
+```
+
+### Features
+
+1. **Real-Time Traffic Metrics**:
+   - Total DNS traffic.
+   - Number of benign and malicious domains.
+2. **Filter Traffic**:
+   - View all traffic, benign domains, or malicious domains.
+3. **Recent Logs**:
+   - Detailed classification logs with timestamps, domain names, and features.
+
+---
+
+## Notes and Best Practices
+
+### Logging
+
+- **Training Logs**: Located in `model_training.log`.
+- **Dashboard Logs**: Located in `application.log`.
+
+### Common Path Variables to Update
+
+- **In `trainModel.py`**:
+  - Dataset file paths (e.g., `benign_file_path`).
+  - Output paths for models and scaler.
+
+- **In `netDash.py`**:
+  - `MODEL_PATH` and `SCALER_PATH`.
+
+### Permissions
+
+For `netDash`, Scapy may require administrator/root privileges for live packet sniffing.
 
 ---
 
 ## Troubleshooting
 
-- **Missing Packages**:
-  Ensure all dependencies are installed. Use `pip install -r requirements.txt` to resolve missing packages.
+### Missing Dependencies
 
-- **Permission Issues**:
-  Run `netDash.py` with elevated privileges if Scapy fails to capture packets.
+Reinstall dependencies using:
 
-- **Model/Scaler Not Found**:
-  Verify that the paths for `MODEL_PATH` and `SCALER_PATH` are correct in the scripts.
+```bash
+pip install -r requirements.txt
+```
+
+### Permission Denied
+
+Run `netDash.py` with elevated privileges:
+
+- **Windows**: Run your terminal as Administrator.
+- **Linux/macOS**: Use `sudo` before the command.
+
+### Incorrect Network Interface
+
+Update the `NETWORK_INTERFACE` variable in `netDash.py` to match your system's active network adapter.
 
 ---
 
 ## Contact
 
-For issues or questions, please contact the project maintainer or open an issue in the repository.
+For further assistance, open an issue in the repository or contact the project maintainer.
 
