@@ -163,7 +163,7 @@ http://127.0.0.1:8050
 ### Common Path Variables to Update
 
 - **In `trainModel.py`**:
-  - Lines 407, 409, 411 for dataset file paths.
+  - Lines 407, 408, 409 for dataset file paths.
 
 - **In `netDash.py`**:
   - Line 22 for `MODEL_PATH`.
