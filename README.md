@@ -50,11 +50,11 @@ python -m venv dns_env
 
 - **Windows**:
   ```bash
-  dns_env\Scripts\activate
+  dns_env\Scripts\activate.ps1
   ```
 - **macOS/Linux**:
   ```bash
-  source dns_env/bin/activate
+  source dns_env/bin/activate.bat
   ```
 
 ---
